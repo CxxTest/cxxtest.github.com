@@ -1823,10 +1823,10 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>executes the tests in test suite <code>MyTestSuite2</code>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>Running 2 tests.
+<pre><code>Running cxxtest tests (2 tests).
 In MyTestSuite2::testMultiplication:
-MyTestSuite2.h:16: Error: Expected (2 * 2 == 5), found (4 != 5)
-Failed 1 of 2 tests
+/Users/wehart/home/mac/src/cxxtest/doc/examples/MyTestSuite2.h:16: Error: Expected (2 * 2 == 5), found (4 != 5)
+Failed 1 and Skipped 0 of 2 tests
 Success rate: 50%</code></pre>
 </div></div>
 <div class="paragraph"><p>Similarly, a single test can be executed by specifying the test suite followed by the test name.  For example</p></div>
@@ -1839,10 +1839,10 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>executes the <code>testMultiplication</code> test in test suite <code>MyTestSuite2</code>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>Running 1 test
+<pre><code>Running cxxtest tests (1 test)
 In MyTestSuite2::testMultiplication:
-MyTestSuite2.h:16: Error: Expected (2 * 2 == 5), found (4 != 5)
-Failed 1 of 1 test
+/Users/wehart/home/mac/src/cxxtest/doc/examples/MyTestSuite2.h:16: Error: Expected (2 * 2 == 5), found (4 != 5)
+Failed 1 and Skipped 0 of 1 test
 Success rate: 0%</code></pre>
 </div></div>
 <div class="paragraph"><p>The <code>-v</code> option enables the printing of trace information generated
@@ -1857,12 +1857,12 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>generates this trace output before and after the test:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>Running 1 test
+<pre><code>Running cxxtest tests (1 test)
 In MyTestSuite2::testMultiplication:
-MyTestSuite2.h:15: Trace: Starting multiplication test
-MyTestSuite2.h:16: Error: Expected (2 * 2 == 5), found (4 != 5)
-MyTestSuite2.h:17: Trace: Finishing multiplication test
-Failed 1 of 1 test
+/Users/wehart/home/mac/src/cxxtest/doc/examples/MyTestSuite2.h:15: Trace: Starting multiplication test
+/Users/wehart/home/mac/src/cxxtest/doc/examples/MyTestSuite2.h:16: Error: Expected (2 * 2 == 5), found (4 != 5)
+/Users/wehart/home/mac/src/cxxtest/doc/examples/MyTestSuite2.h:17: Trace: Finishing multiplication test
+Failed 1 and Skipped 0 of 1 test
 Success rate: 0%</code></pre>
 </div></div>
 </div>
