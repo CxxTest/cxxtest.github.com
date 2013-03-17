@@ -782,8 +782,8 @@ spirit to <a href="http://junit.org/">JUnit</a>,
 use because it does not require precompiling a CxxTest testing
 library, it employs no advanced features of C++ (e.g. RTTI) and it
 supports a very flexible form of test discovery.  This documentation
-describes CxxTest 4.1, which includes significant enhancements to
-the test discovery process, a modern test driver, and new documentation.</p></div>
+describes CxxTest 4.2, which is an incremental release that includes
+better test discovery features and new test skipping features.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -2770,9 +2770,10 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>easy_install ply
 easy_install ordereddict</tt></pre></div></div>
 <div class="paragraph"><p>The <code>cxxtestgen</code> script has been tested with many different versions
-of Python:  2.4 - 3.2.  Note that this script has only been tested
-with the CPython implementation.  CxxTest 4.1 has been tested on
-Linux and Mac platforms using the <code>g++</code> and <code>clang++</code> compilers.</p></div>
+of Python:  2.4 - 3.3, though future releases will not support
+Python 2.4.  Note that this script has only been tested with the
+CPython implementation.  CxxTest 4.2 has been tested on Linux and
+Mac platforms using the <code>g++</code> and <code>clang++</code> compilers.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -2782,7 +2783,7 @@ Linux and Mac platforms using the <code>g++</code> and <code>clang++</code> comp
 and focus of CxxTest.  The 4.0 release was the first release of
 CxxTest in over seven years, and virtually all of the initial
 developers have moved on to other projects.</p></div>
-<div class="paragraph"><p>The CxxTest 4.1 release is an incremental release that was driven
+<div class="paragraph"><p>The CxxTest 4.2 release is an incremental release that was driven
 by a variety of bug fixes and minor enhancements.  CxxTest is heavily
 used at Sandia National Laboratories, and Sandia&#8217;s ongoing use of
 CxxTest is a major driver for CxxTest development.</p></div>
@@ -2855,7 +2856,7 @@ where a custom output stream must be specified.</p></div>
 <h2 id="acknowledgements">Acknowledgements</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>CxxTest was originally developed by Erez Volk.  The following
-developers contributed to the CxxTest 4.0 and 4.1 releases:</p></div>
+developers contributed to the CxxTest 4.x releases:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2895,6 +2896,11 @@ Lionel Orry
 <li>
 <p>
 John Siirola
+</p>
+</li>
+<li>
+<p>
+Jon Schlueter
 </p>
 </li>
 </ul></div>
@@ -3937,6 +3943,53 @@ http://www.gnu.org/software/src-highlite -->
 <div class="ulist"><ul>
 <li>
 <p>
+Version 4.2 (2013-03-16)
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Changes to support test fixtures in namespaces
+</p>
+</li>
+<li>
+<p>
+Adding logic to support test skipping
+</p>
+</li>
+<li>
+<p>
+Change to create self-contained HTML documentation
+</p>
+</li>
+<li>
+<p>
+Fixed inheritance issue in GlobalFixture (#69)
+</p>
+</li>
+<li>
+<p>
+Update LGPL version
+</p>
+</li>
+<li>
+<p>
+Changes to try/catch to avoid ambiguities withn catching std::exception (#53)
+</p>
+</li>
+<li>
+<p>
+Fixed TS_ASSERT_DELTA to work on integer types (#65)
+</p>
+</li>
+<li>
+<p>
+Changed output format to print world-name (#70)
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
 Version 4.1 (2012-11-30)
 </p>
 <div class="ulist"><ul>
@@ -4643,7 +4696,7 @@ Major internal improvements
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-03-16 06:06:37 MDT
+Last updated 2013-03-16 17:55:35 MDT
 </div>
 </div>
 </body>
