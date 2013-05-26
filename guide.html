@@ -782,7 +782,7 @@ spirit to <a href="http://junit.org/">JUnit</a>,
 use because it does not require precompiling a CxxTest testing
 library, it employs no advanced features of C++ (e.g. RTTI) and it
 supports a very flexible form of test discovery.  This documentation
-describes CxxTest 4.2, which is an incremental release that includes
+describes CxxTest 4.2.1, which is an incremental release that includes
 better test discovery features and new test skipping features.</p></div>
 </div>
 </div>
@@ -1106,6 +1106,14 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Verify that <code>x == y</code></p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#ts_assert_is_nan"><code>TS_ASSERT_IS_NAN(x)</code></a></p></td>
+<td align="left" valign="top"><p class="table">Verify that <code>x</code> is NaN</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ts_assert_is_infinite"><code>TS_ASSERT_IS_INFINITE(x)</code></a></p></td>
+<td align="left" valign="top"><p class="table">Verify that <code>x</code> is infinite</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#ts_assert_less_than"><code>TS_ASSERT_LESS_THAN(x,y)</code></a></p></td>
 <td align="left" valign="top"><p class="table">Verify that <code>x &lt; y</code></p></td>
 </tr>
@@ -1139,6 +1147,14 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#ts_assert_throws_equals"><code>TS_ASSERT_THROWS_EQUALS(expr,arg,x,y)</code></a></p></td>
+<td align="left" valign="top"><p class="table">Verify type and value of what <code>expr</code> throws</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ts_assert_throws_is_nan"><code>TS_ASSERT_THROWS_IS_NAN(expr,arg,x)</code></a></p></td>
+<td align="left" valign="top"><p class="table">Verify type and value of what <code>expr</code> throws</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ts_assert_throws_is_infinite"><code>TS_ASSERT_THROWS_IS_INFINITE(expr,arg,x)</code></a></p></td>
 <td align="left" valign="top"><p class="table">Verify type and value of what <code>expr</code> throws</p></td>
 </tr>
 <tr>
@@ -1411,7 +1427,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="listingblock">
 <div class="content">
 <pre><code>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
-&lt;testsuite name="cxxtest"  tests="2" errors="0" failures="1" time="0" &gt;
+&lt;testsuite name="cxxtest" date="Tue Apr 23 23:28:43 2013" tests="2" errors="0" failures="1" time="0" &gt;
     &lt;testcase classname="MyTestSuite2" name="testAddition" line="7" /&gt;
     &lt;testcase classname="MyTestSuite2" name="testMultiplication" line="13"&gt;
         &lt;failure file="MyTestSuite2.h" line="16" type="failedAssertEquals" &gt;Error: Expected (2 * 2 == 5), found (4 != 5)&lt;/failure&gt;
@@ -1728,8 +1744,10 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900">// Namespace1.h</span></span>
 <span style="font-weight: bold"><span style="color: #000080">#include</span></span> <span style="color: #FF0000">&lt;cxxtest/TestSuite.h&gt;</span>
 
-<span style="font-weight: bold"><span style="color: #0000FF">namespace</span></span> foo <span style="color: #FF0000">{</span>
-<span style="font-weight: bold"><span style="color: #0000FF">namespace</span></span> bar <span style="color: #FF0000">{</span>
+<span style="font-weight: bold"><span style="color: #0000FF">namespace</span></span> foo
+<span style="color: #FF0000">{</span>
+<span style="font-weight: bold"><span style="color: #0000FF">namespace</span></span> bar
+<span style="color: #FF0000">{</span>
 
 <span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">MyTestSuite1</span> <span style="color: #990000">:</span> <span style="font-weight: bold"><span style="color: #0000FF">public</span></span> CxxTest<span style="color: #990000">::</span>TestSuite
 <span style="color: #FF0000">{</span>
@@ -1745,8 +1763,10 @@ http://www.gnu.org/software/src-highlite -->
 <span style="color: #FF0000">}</span>
 
 
-<span style="font-weight: bold"><span style="color: #0000FF">namespace</span></span> FOO <span style="color: #FF0000">{</span>
-<span style="font-weight: bold"><span style="color: #0000FF">namespace</span></span> BAR <span style="color: #FF0000">{</span>
+<span style="font-weight: bold"><span style="color: #0000FF">namespace</span></span> FOO
+<span style="color: #FF0000">{</span>
+<span style="font-weight: bold"><span style="color: #0000FF">namespace</span></span> BAR
+<span style="color: #FF0000">{</span>
 
 <span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">MyTestSuite1</span> <span style="color: #990000">:</span> <span style="font-weight: bold"><span style="color: #0000FF">public</span></span> CxxTest<span style="color: #990000">::</span>TestSuite
 <span style="color: #FF0000">{</span>
@@ -1958,6 +1978,40 @@ supports this with the <code>CXXTEST_STD()</code> macro.  For example,
 <code>CXXTEST_STD(cout)</code> can be used within a test suite, and CxxTest
 handles the mapping of this to <code>cout</code> or <code>std::cout</code> depending on
 options provided to <code>cxxtestgen</code>.</p></div>
+<div class="paragraph"><p>Finally, CxxTest defines the <code>CXXTEST_RUNNING</code> preprocessor macro.
+This can be used in a test header file to define code that is
+executed when the header is not used in a test runner.  For example:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">// MyTestSuite12.h</span></span>
+<span style="font-weight: bold"><span style="color: #000080">#include</span></span> <span style="color: #FF0000">&lt;cxxtest/TestSuite.h&gt;</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">class</span></span> <span style="color: #008080">MyTestSuite1</span> <span style="color: #990000">:</span> <span style="font-weight: bold"><span style="color: #0000FF">public</span></span> CxxTest<span style="color: #990000">::</span>TestSuite
+<span style="color: #FF0000">{</span>
+<span style="font-weight: bold"><span style="color: #0000FF">public</span></span><span style="color: #990000">:</span>
+    <span style="color: #009900">void</span> <span style="font-weight: bold"><span style="color: #000000">testAddition</span></span><span style="color: #990000">(</span><span style="color: #009900">void</span><span style="color: #990000">)</span>
+    <span style="color: #FF0000">{</span>
+        <span style="font-weight: bold"><span style="color: #000000">TS_ASSERT</span></span><span style="color: #990000">(</span><span style="color: #993399">1</span> <span style="color: #990000">+</span> <span style="color: #993399">1</span> <span style="color: #990000">&gt;</span> <span style="color: #993399">1</span><span style="color: #990000">);</span>
+        <span style="font-weight: bold"><span style="color: #000000">TS_ASSERT_EQUALS</span></span><span style="color: #990000">(</span><span style="color: #993399">1</span> <span style="color: #990000">+</span> <span style="color: #993399">1</span><span style="color: #990000">,</span> <span style="color: #993399">2</span><span style="color: #990000">);</span>
+    <span style="color: #FF0000">}</span>
+<span style="color: #FF0000">}</span><span style="color: #990000">;</span>
+
+
+<span style="font-weight: bold"><span style="color: #000080">#ifndef</span></span> CXXTEST_RUNNING
+<span style="font-weight: bold"><span style="color: #000080">#include</span></span> <span style="color: #FF0000">&lt;iostream&gt;</span>
+
+<span style="color: #009900">int</span> <span style="font-weight: bold"><span style="color: #000000">main</span></span><span style="color: #990000">(</span><span style="color: #009900">int</span> argc<span style="color: #990000">,</span> <span style="color: #009900">char</span> <span style="color: #990000">*</span>argv<span style="color: #990000">[])</span>
+<span style="color: #FF0000">{</span>
+
+    std<span style="color: #990000">::</span>cout <span style="color: #990000">&lt;&lt;</span> <span style="color: #FF0000">"Non-CxxTest stuff is happening now."</span> <span style="color: #990000">&lt;&lt;</span> std<span style="color: #990000">::</span>endl<span style="color: #990000">;</span>
+
+<span style="color: #FF0000">}</span>
+<span style="font-weight: bold"><span style="color: #000080">#endif</span></span></tt></pre></div></div>
+<div class="paragraph"><p>Note that test suites derived from <code>CxxTest::TestSuite</code> class cannot
+easily be built outside of the test runner.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_customizing_test_fixtures">6.2. Customizing Test Fixtures</h3>
@@ -2772,7 +2826,7 @@ easy_install ordereddict</tt></pre></div></div>
 <div class="paragraph"><p>The <code>cxxtestgen</code> script has been tested with many different versions
 of Python:  2.4 - 3.3, though future releases will not support
 Python 2.4.  Note that this script has only been tested with the
-CPython implementation.  CxxTest 4.2 has been tested on Linux and
+CPython implementation.  CxxTest 4.2.1 has been tested on Linux and
 Mac platforms using the <code>g++</code> and <code>clang++</code> compilers.</p></div>
 </div>
 </div>
@@ -2783,7 +2837,7 @@ Mac platforms using the <code>g++</code> and <code>clang++</code> compilers.</p>
 and focus of CxxTest.  The 4.0 release was the first release of
 CxxTest in over seven years, and virtually all of the initial
 developers have moved on to other projects.</p></div>
-<div class="paragraph"><p>The CxxTest 4.2 release is an incremental release that was driven
+<div class="paragraph"><p>The CxxTest 4.2.1 release is an incremental release that was driven
 by a variety of bug fixes and minor enhancements.  CxxTest is heavily
 used at Sandia National Laboratories, and Sandia&#8217;s ongoing use of
 CxxTest is a major driver for CxxTest development.</p></div>
@@ -3014,6 +3068,44 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Note that this test is performed using the C++ <code>==</code> operator, whose behavior may be redefined for the two argument types.</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
+<a id="ts_assert_is_nan"></a> TS_ASSERT_IS_NAN
+</dt>
+<dd>
+<p>
+  This test assertion verifies that the argument is NaN:
+</p>
+</dd>
+</dl></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>    <span style="color: #009900">void</span> <span style="font-weight: bold"><span style="color: #000000">test_assert_is_nan</span></span><span style="color: #990000">(</span><span style="color: #009900">void</span><span style="color: #990000">)</span>
+    <span style="color: #FF0000">{</span>
+        <span style="font-weight: bold"><span style="color: #000000">TS_ASSERT_IS_NAN</span></span><span style="color: #990000">(</span> <span style="color: #993399">0.0</span><span style="color: #990000">/</span><span style="color: #993399">0.0</span> <span style="color: #990000">);</span>
+    <span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<a id="ts_assert_is_infinite"></a> TS_ASSERT_IS_INFINITE
+</dt>
+<dd>
+<p>
+  This test assertion verifies that the argument is infinite:
+</p>
+</dd>
+</dl></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>    <span style="color: #009900">void</span> <span style="font-weight: bold"><span style="color: #000000">test_assert_is_infinite</span></span><span style="color: #990000">(</span><span style="color: #009900">void</span><span style="color: #990000">)</span>
+    <span style="color: #FF0000">{</span>
+        <span style="font-weight: bold"><span style="color: #000000">TS_ASSERT_IS_INFINITE</span></span><span style="color: #990000">(</span> <span style="color: #993399">1.0</span><span style="color: #990000">/</span><span style="color: #993399">0.0</span> <span style="color: #990000">);</span>
+    <span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
 <a id="ts_assert_less_than"></a> TS_ASSERT_LESS_THAN
 </dt>
 <dd>
@@ -3209,6 +3301,54 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>    <span style="color: #009900">void</span> <span style="font-weight: bold"><span style="color: #000000">test_assert_throws_equals</span></span><span style="color: #990000">(</span><span style="color: #009900">void</span><span style="color: #990000">)</span>
     <span style="color: #FF0000">{</span>
         <span style="font-weight: bold"><span style="color: #000000">TS_ASSERT_THROWS_EQUALS</span></span><span style="color: #990000">(</span>self<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">throws_value</span></span><span style="color: #990000">(),</span> <span style="font-weight: bold"><span style="color: #0000FF">const</span></span> Error <span style="color: #990000">&amp;</span> e<span style="color: #990000">,</span> e<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">what</span></span><span style="color: #990000">(),</span> <span style="color: #993399">1</span><span style="color: #990000">);</span>
+    <span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<a id="ts_assert_throws_is_nan"></a> TS_ASSERT_THROWS_IS_NAN
+</dt>
+<dd>
+<p>
+This test assertion verifies that an exception is thrown when executing the first argument.  The second argument specifies a variable declaration for the exception, and the third argument is a value that are asserted to be NaN after the exception is thrown:
+</p>
+</dd>
+</dl></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>    <span style="color: #009900">void</span> <span style="font-weight: bold"><span style="color: #000000">throws_nan</span></span><span style="color: #990000">(</span><span style="color: #009900">void</span><span style="color: #990000">)</span>
+    <span style="color: #FF0000">{</span>
+        raise <span style="color: #993399">0.0</span><span style="color: #990000">/</span><span style="color: #993399">0.0</span><span style="color: #990000">;</span>
+    <span style="color: #FF0000">}</span>
+
+    <span style="color: #009900">void</span> <span style="font-weight: bold"><span style="color: #000000">test_assert_throws_is_nan</span></span><span style="color: #990000">(</span><span style="color: #009900">void</span><span style="color: #990000">)</span>
+    <span style="color: #FF0000">{</span>
+        <span style="font-weight: bold"><span style="color: #000000">TS_ASSERT_THROWS_IS_NAN</span></span><span style="color: #990000">(</span>self<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">throws_nan</span></span><span style="color: #990000">(),</span> <span style="font-weight: bold"><span style="color: #0000FF">const</span></span> Error <span style="color: #990000">&amp;</span> e<span style="color: #990000">,</span> e<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">what</span></span><span style="color: #990000">());</span>
+    <span style="color: #FF0000">}</span></tt></pre></div></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<a id="ts_assert_throws_is_infinite"></a> TS_ASSERT_THROWS_IS_INFINITE
+</dt>
+<dd>
+<p>
+This test assertion verifies that an exception is thrown when executing the first argument.  The second argument specifies a variable declaration for the exception, and the third argument is a value that are asserted to be infinite after the exception is thrown:
+</p>
+</dd>
+</dl></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>    <span style="color: #009900">void</span> <span style="font-weight: bold"><span style="color: #000000">throws_infinite</span></span><span style="color: #990000">(</span><span style="color: #009900">void</span><span style="color: #990000">)</span>
+    <span style="color: #FF0000">{</span>
+        raise <span style="color: #993399">1.0</span><span style="color: #990000">/</span><span style="color: #993399">0.0</span><span style="color: #990000">;</span>
+    <span style="color: #FF0000">}</span>
+
+    <span style="color: #009900">void</span> <span style="font-weight: bold"><span style="color: #000000">test_assert_throws_is_infinite</span></span><span style="color: #990000">(</span><span style="color: #009900">void</span><span style="color: #990000">)</span>
+    <span style="color: #FF0000">{</span>
+        <span style="font-weight: bold"><span style="color: #000000">TS_ASSERT_THROWS_IS_INFINITE</span></span><span style="color: #990000">(</span>self<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">throws_infinite</span></span><span style="color: #990000">(),</span> <span style="font-weight: bold"><span style="color: #0000FF">const</span></span> Error <span style="color: #990000">&amp;</span> e<span style="color: #990000">,</span> e<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">what</span></span><span style="color: #990000">());</span>
     <span style="color: #FF0000">}</span></tt></pre></div></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
@@ -3941,6 +4081,18 @@ http://www.gnu.org/software/src-highlite -->
 <h2 id="appendix_D">Appendix D: CxxTest Releases</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
+<li>
+<p>
+Version 4.2.1 (2013-03-22)
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Fixing documentation of LGPL version
+</p>
+</li>
+</ul></div>
+</li>
 <li>
 <p>
 Version 4.2 (2013-03-16)
@@ -4696,7 +4848,7 @@ Major internal improvements
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2013-03-16 17:55:35 MDT
+Last updated 2013-05-05 14:18:57 MDT
 </div>
 </div>
 </body>
